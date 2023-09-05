@@ -11,6 +11,8 @@ const PuzzlePiece = ({
   slideOutDistance1 = 40,
   slideOutDistance2 = 40,
   rotationAngle = 12,
+  bouncingAngle = 45,
+  entireRotatedAngle = 0
 }) => {
   useEffect(() => {
     const tl = gsap.timeline({ repeat: -1 });
@@ -29,8 +31,8 @@ const PuzzlePiece = ({
       .to(
         "#rotator1",
         {
-          x: -slideOutDistance1,
-          y: -slideOutDistance1,
+          x: -slideOutDistance1 * Math.cos((Math.PI * bouncingAngle) / 180.0),
+          y: -slideOutDistance1 * Math.sin((Math.PI * bouncingAngle) / 180.0),
           rotate: 0,
           ease: "power1.inOut",
           duration: bouncingTime,
@@ -54,8 +56,8 @@ const PuzzlePiece = ({
       .to(
         "#rotator2",
         {
-          x: slideOutDistance2,
-          y: slideOutDistance2,
+          x: slideOutDistance1 * Math.cos((Math.PI * bouncingAngle) / 180.0),
+          y: slideOutDistance1 * Math.sin((Math.PI * bouncingAngle) / 180.0),
           rotate: 0,
           ease: "power1.inOut",
           duration: bouncingTime,
@@ -98,7 +100,13 @@ const PuzzlePiece = ({
       );
 
     return () => tl.kill();
-  }, [bouncingTime, slideOutDistance1, slideOutDistance2, rotationAngle]);
+  }, [
+    bouncingTime,
+    slideOutDistance1,
+    slideOutDistance2,
+    rotationAngle,
+    bouncingAngle,
+  ]);
 
   return (
     <>
@@ -109,7 +117,7 @@ const PuzzlePiece = ({
         strokeLinejoin="round"
         strokeWidth={thickness}
         xmlns="http://www.w3.org/2000/svg"
-        style={{ overflow: "visible" }}
+        style={{ overflow: "visible", transform: `rotate(${entireRotatedAngle}deg)`}}
       >
         {/* Puzzle Board Piece1 */}
         <path
