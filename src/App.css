@@ -8,5 +8,6 @@ body{
 }
 
 .App {
-  margin: 3em auto;
+  margin: 5em auto;
+  padding: 0 500px;
 }
